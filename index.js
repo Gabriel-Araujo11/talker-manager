@@ -13,7 +13,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-// REQ 01
+// REQ 01, REQ 02
 app.use('/talker', talkerRoute);
 
 app.listen(PORT, () => {
