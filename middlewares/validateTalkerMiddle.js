@@ -1,4 +1,6 @@
+const UNAUTHORIZED = 401;
 const REGEX_DDMMAAAA = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/i;
+const fs = require('fs').promises;
 
 function validadeTalkerByName(name) {
     if (!name || name === '') {
@@ -42,6 +44,21 @@ function validadeTalkerByName(name) {
     }
   }
 
+  async function validateToken(req, res, next) {
+    const { authorization } = req.headers;
+    const token = await fs.readFile('./talker.json');
+
+    if (!authorization || authorization === '') {
+        return res.status(UNAUTHORIZED).json({ message: 'Token não encontrado' });
+    }
+
+    if (authorization !== token) {
+        return res.status(UNAUTHORIZED).json({ message: 'Token inválido' });
+    }
+
+    next();
+}
+
   function validateByAll(t) {
       let messageFinal = validadeTalkerByName(t.name);
       if (messageFinal) {
@@ -52,8 +69,12 @@ function validadeTalkerByName(name) {
       if (messageFinal) {
           return messageFinal;
       }
+      messageFinal = validateToken(t.authorization);
+      if (messageFinal) {
+          return messageFinal;
+        }
       messageFinal = validateTalk(t.talk);
       return messageFinal;
-      }
+    }
 
 module.exports = { validateByAll };

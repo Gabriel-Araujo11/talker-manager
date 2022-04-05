@@ -27,8 +27,4 @@ router.get('/:id', async (req, res) => {
     return res.status(ERROR).send({ message: response.message });
 });
 
-    // REQ 04 - POST new talker;
-
-    // router.post('/talker',  )
-
 module.exports = router;
