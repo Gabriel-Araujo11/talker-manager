@@ -59,22 +59,10 @@ function validadeTalkerByName(name) {
     next();
 }
 
-  function validateByAll(t) {
-      let messageFinal = validadeTalkerByName(t.name);
-      if (messageFinal) {
-          return messageFinal;
-      }
-
-      messageFinal = validateTalkerByAge(t.age);
-      if (messageFinal) {
-          return messageFinal;
-      }
-      messageFinal = validateToken(t.authorization);
-      if (messageFinal) {
-          return messageFinal;
-        }
-      messageFinal = validateTalk(t.talk);
-      return messageFinal;
+  function validateByAll(name, age, talk) {
+      return validadeTalkerByName(name)
+      || validateTalkerByAge(age)
+      || validateTalk(talk);
     }
 
-module.exports = { validateByAll };
+module.exports = { validateByAll, validateToken };

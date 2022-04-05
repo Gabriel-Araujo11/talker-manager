@@ -8,9 +8,7 @@ const { randomToken } = require('../services/generateToken');
 
 const { emailValidate, passwordValidate } = require('../middlewares/validateLoginMiddle');
 
-const { validateByAll } = require('../middlewares/validateTalkerMiddle');
-
-// const { validadeToken } = require('../middlewares/validateTokenMiddle');
+const { validateByAll, validateToken } = require('../middlewares/validateTalkerMiddle');
 
 const OK = 200;
 const CREATED = 201;
@@ -20,7 +18,7 @@ router.post('/login', emailValidate, passwordValidate, (_req, res) => {
     return res.status(OK).json({ token: randomsToken });
 });
 
-router.post('/talker', validateByAll, async (req, res) => {
+router.post('/talker', validateToken, async (req, res) => {
     const { name, age, talk } = req.body;
     const talkers = JSON.parse(await fs.readFile('./talker.json'));
     const id = talkers.length + 1;
