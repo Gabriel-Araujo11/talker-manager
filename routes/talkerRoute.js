@@ -2,6 +2,7 @@ const express = require('express');
 
 const getTalker = require('../middlewares/talkerMiddle');
 const getTalkerById = require('../middlewares/talkerByIdMiddle');
+const talkerUpdate = require('../middlewares/talkerUpdateMiddle');
 
 const router = express.Router();
 
@@ -26,5 +27,7 @@ router.get('/:id', async (req, res) => {
 // Se vier com a mensagem que o id não foi encontrado, retornará error 404, enviando (send) a mensagem;
     return res.status(ERROR).send({ message: response.message });
 });
+
+router.put('./talker:id', talkerUpdate);
 
 module.exports = router;
