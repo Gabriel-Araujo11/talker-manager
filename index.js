@@ -14,11 +14,9 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-// REQ 01, REQ 02
-app.use('/talker', talkerRoute);
+app.use('/login', validateRoute);
 
-// REQ 03, REQ 04;
-app.use('/', validateRoute);
+app.use('/talker', talkerRoute);
 
 app.listen(PORT, () => {
   console.log('Online');
