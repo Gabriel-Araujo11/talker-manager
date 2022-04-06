@@ -4,6 +4,7 @@ const fs = require('fs').promises;
 const getTalker = require('../middlewares/talkerMiddle');
 const getTalkerById = require('../middlewares/talkerByIdMiddle');
 const talkerUpdate = require('../middlewares/talkerUpdateMiddle');
+const talkerDelete = require('../middlewares/talkerDeleteMiddle');
 const { validateByAll } = require('../middlewares/validateTalkerMiddle');
 
 const router = express.Router();
@@ -53,5 +54,6 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', talkerUpdate);
+router.delete('/:id', talkerDelete);
 
 module.exports = router;

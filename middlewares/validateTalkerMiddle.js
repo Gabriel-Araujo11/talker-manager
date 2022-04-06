@@ -68,4 +68,4 @@ function validadeTalkerByName(name) {
       || validateTalkFinal(talk);
     }
 
-module.exports = { validateByAll };
+module.exports = { validateByAll, validateToken };

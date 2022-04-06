@@ -15,7 +15,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/login', validateRoute);
-
 app.use('/talker', talkerRoute);
 
 app.listen(PORT, () => {
