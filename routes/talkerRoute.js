@@ -52,6 +52,6 @@ router.post('/', async (req, res) => {
     return res.status(CREATED).send(newTalker); 
 });
 
-router.put('./talker:id', talkerUpdate);
+router.put('/:id', talkerUpdate);
 
 module.exports = router;

@@ -1,21 +1,28 @@
-const OK = 200;
 const fs = require('fs').promises;
 
-async function talkerUpdate(req, res) {
-    const { id } = req.params;
-    const { name, age, talk } = req.body;
-    const talkers = JSON.parse(await fs.readFile('./talker.json'));
-    const reTalkers = talkers.filter((t) => Number(t.id) !== Number(id));
-    const talkerUpdated = {
-        id: Number(id),
-        name, 
-        age, 
-        talk,
-    };
+const { validateByAll } = require('./validateTalkerMiddle');
 
-    const newTalkers = [...reTalkers, talkerUpdated];
-    await fs.writeFile('./talker.json', JSON.stringify(newTalkers));
-    return res.status(OK).json(newTalkers);
+const OK = 200;
+
+async function talkerUpdate(req, res) {
+  const { id } = req.params;
+  const { name, age, talk } = req.body;
+  const { authorization } = req.headers;
+  let talkers = JSON.parse(await fs.readFile('./talker.json'));
+  const result = validateByAll(authorization, name, age, talk);
+  const newTalker = {
+    id: Number(id),
+    name,
+    age,
+    talk,
+  };
+  talkers = talkers.filter((t) => t.id !== Number(id));
+  if (result) {
+    return res.status(result.status).send({ message: result.message });
+  }
+  talkers.push(newTalker);
+  await fs.writeFile('./talker.json', JSON.stringify(talkers));
+  return res.status(OK).send(newTalker);
 }
 
 module.exports = talkerUpdate;

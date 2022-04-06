@@ -22,29 +22,34 @@ function validadeTalkerByName(name) {
         }
     }
     
-    function validateWatchedAtRate(watchedAt, rate) {
+    function validateWatchedAtRate(watchedAt) {
         if (!REGEX_DDMMAAAA.test(watchedAt)) { 
             return { status: BAD_REQUEST,
                 message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' };
         }
-
-        if (!Number.isInteger(rate) || rate < 0 || rate > 5) {
-            // Garante que virá um numero inteiro; https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
+    }
+    
+    function validateRate(rate) {
+        const parseIntVar = parseInt(rate, 10);
+        if (parseIntVar < 1 || parseIntVar > 5) {
             return { status: BAD_REQUEST, message: 'O campo "rate" deve ser um inteiro de 1 à 5' };
-          }
         }
+    }
 
     function validateTalk(talk) {
-        if (!talk || !talk.watchedAt || !talk.rate) {
-        return {
-            status: BAD_REQUEST,
-            message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' };
-    }
-    const message = validateWatchedAtRate(talk.watchedAt, talk.rate);
-    if (message) {
-      return message;
-    }
-  }
+        if (!talk.watchedAt || talk.rate === undefined) {
+            return {
+                status: BAD_REQUEST,
+              message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' };
+            }
+        }
+
+        function validateTalkFinal(talk = {}) {
+            const { watchedAt, rate } = talk;
+            return validateTalk(talk)
+            || validateWatchedAtRate(watchedAt)
+            || validateRate(rate);
+        }
 
   function validateToken(authorization) { 
     if (!authorization) {
@@ -60,7 +65,7 @@ function validadeTalkerByName(name) {
       return validateToken(authorization)
       || validadeTalkerByName(name)
       || validateTalkerByAge(age)
-      || validateTalk(talk);
+      || validateTalkFinal(talk);
     }
 
 module.exports = { validateByAll };
