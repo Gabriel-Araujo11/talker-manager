@@ -1,25 +1,25 @@
 const OK = 200;
 const fs = require('fs').promises;
 
-const talkerGetSearch = async (req, res) => {
-    const { query } = req.query.q;
-    console.log(query);
+async function talkerGetSearch(req, res) {
+    const { q } = req.query;
+    console.log(q);
 
     try {
         const talkers = await fs.readFile('./talker.json');
         const talkersParse = JSON.parse(talkers);
         
-        const talkersFilter = talkersParse.filter((t) => t.name.includes(query));
-        if (!query) {
+        const talkersFilter = talkersParse.filter((t) => t.name.includes(q));
+        if (q !== null) {
             return res.status(OK).json(talkersFilter);
         }
         
-        if (query.length === 0) {
+        if (q.length === 0) {
             return res.status(OK).json([]);
         }
     } catch (error) {
         return res.status(401).json(console.log(error));
     }
-};
+}
 
 module.exports = talkerGetSearch;
