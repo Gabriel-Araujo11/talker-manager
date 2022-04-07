@@ -5,6 +5,8 @@ const getTalker = require('../middlewares/talkerMiddle');
 const getTalkerById = require('../middlewares/talkerByIdMiddle');
 const talkerUpdate = require('../middlewares/talkerUpdateMiddle');
 const talkerDelete = require('../middlewares/talkerDeleteMiddle');
+const tokenValidation = require('../services/tokenValidationFull');
+const talkerGetSearch = require('../middlewares/talkerGetSearchMiddle');
 const { validateByAll } = require('../middlewares/validateTalkerMiddle');
 
 const router = express.Router();
@@ -17,6 +19,8 @@ router.get('/', async (_req, res) => {
 // Retorna a resposta para o servidor sendo como ok, assincronimcamente esperando a ação do middleware getTalker;
     res.status(OK).send(await getTalker());
 });
+
+router.get('/search', tokenValidation, talkerGetSearch);
 
 // REQ 02 - Pega (get) a pessoa palestrante com base no id;
 router.get('/:id', async (req, res) => {
