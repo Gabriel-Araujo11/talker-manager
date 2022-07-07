@@ -1,9 +1,9 @@
-# Boas vindas ao repositório do projeto API de blogs!
+# Boas vindas ao repositório do projeto Talker Manager!
 
 _Neste projeto:_
-  * Criei e associei tabelas usando `models` do `sequelize`;
-  * Construi endpoints para consumir os `models` que criei;
-  * Fiz um `CRUD` com o `ORM`;
+  * Realizei operações assíncronas utilizando callbacks e promises;
+  * Escrevi APIs utilizando NodeJs e Express;
+  * Criei rotas e apliquei middlewares;
  
   **Descrição dos requisitos (files):**
   
